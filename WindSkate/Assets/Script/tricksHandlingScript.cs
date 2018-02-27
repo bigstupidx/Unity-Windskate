@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 public class tricksHandlingScript : MonoBehaviour {
 
+    public InterfaceControl UIData;
     public Sprite idleStar;
     public Sprite pressedStar;
     public List<GameObject> TricksButton_Level;
@@ -57,6 +58,26 @@ public class tricksHandlingScript : MonoBehaviour {
 
 	public string manoeuvreStatus = "none";
 
+    public void initUIData()
+    {
+        if ((gameObject.GetComponent<ExternalObjectsReference>() != null) & (isCurrentPlayer == true))
+        {
+            UIData = gameObject.GetComponent<ExternalObjectsReference>().UIControlData;
+            ButtonManoeuvreLeft = UIData.ManoeuvreLeftButton;
+            ButtonManoeuvreRight = UIData.ManoeuvreRightButton;
+            SlidersContainer = UIData.SliderContainer;
+
+            SlidersList = new List<Slider>();
+            foreach (Transform child in SlidersContainer.transform)
+            {
+                SlidersList.Add(child.gameObject.GetComponent<Slider>());
+            }
+        initSliders();
+        playerMaxEnergyLevel = EnergyMaxLevel;
+        //ButtonDisplayManoeuvreHandling();
+        }
+    }
+
     // Use this for initialization
     void Start () {
         isCurrentPlayer = this.gameObject.GetComponent<PlayerCollision>().isPlayer;
@@ -68,36 +89,11 @@ public class tricksHandlingScript : MonoBehaviour {
 		raceDataUserPref = this.GetComponent<ExternalObjectsReference>().UserPrefs;
         sailControlData = this.GetComponent<PlayerCollision>().SailSystem.GetComponent<Sail_System_Control>();
         followTrackData = this.GetComponent<PlayerCollision>().Board.GetComponent<Follow_track>();
-
-		if (GetComponentInParent<PlayerCollision> ().isPlayer == true) {
-
-            Debug.Log(this.gameObject.name);
-            Debug.Log(this.gameObject.GetComponent<ExternalObjectsReference>());
-			InterfaceControl tempUIData = this.gameObject.GetComponent<ExternalObjectsReference> ().UIControlData;
-            Debug.Log(tempUIData);
-            ButtonManoeuvreLeft = tempUIData.ManoeuvreLeftButton;
-            ButtonManoeuvreRight = tempUIData.ManoeuvreRightButton;
-            SlidersContainer = tempUIData.SliderContainer;
-		}
+        
 
 		EnergyMaxLevel = Mathf.Max(localTackList[localTackList.Count -1].costEnergy, localJibeList[localJibeList.Count -1].costEnergy);
 		SpeedMaxLevel = Mathf.Max(localTackList[localTackList.Count -1].costSpeed, localJibeList[localJibeList.Count -1].costSpeed);
 		AngleMaxLevel = Mathf.Max(localTackList[localTackList.Count -1].costAngle, localJibeList[localJibeList.Count -1].costAngle);
-
-        if (isCurrentPlayer == true)
-        {
-            SlidersList = new List<Slider>();
-            foreach (Transform child in SlidersContainer.transform)
-            {
-                SlidersList.Add(child.gameObject.GetComponent<Slider>());
-            }
-
-            initSliders();
-
-            playerMaxEnergyLevel = EnergyMaxLevel;
-            //ButtonDisplayManoeuvreHandling();
-            
-        }
     }
 
     void ButtonDisplayManoeuvreHandling()
@@ -296,6 +292,10 @@ public class tricksHandlingScript : MonoBehaviour {
 
     void Update()
     {
+        // workaround since I had problems at initialization
+        initUIData();
+        // endof workaround
+
         WindAngle = followTrackData.angleBoardToWind;
         currentSpeed = sailControlData.Board_Speed;
         // in the best sector:

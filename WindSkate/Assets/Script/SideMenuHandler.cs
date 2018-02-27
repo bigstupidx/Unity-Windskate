@@ -132,7 +132,7 @@ public class SideMenuHandler : MonoBehaviour {
 	/// <param name="display">If set to <c>true</c> display.</param>
 	public void sideMenuDisplayHandler(bool display)
 	{
-		Debug.Log ("sidemenuDisplayhandler = " + display);
+		//Debug.Log ("sidemenuDisplayhandler = " + display);
 		foreach (Menu currentMenu in MenuList) {
 			foreach (Transform child in currentMenu.buttonObject.transform) {
 				if (child.gameObject.name == "ButtonBackground") {
@@ -159,7 +159,7 @@ public class SideMenuHandler : MonoBehaviour {
 	/// <param name="i">The index in the MenuList</param>
 	public void openLandingPage(int i)
 	{
-		Debug.Log ("Open Landing Page ID : " + i);
+		//Debug.Log ("Open Landing Page ID : " + i);
 		int counter = 0;
 		foreach (Menu currentMenu in MenuList) {
 			if (i == counter) {
@@ -167,7 +167,7 @@ public class SideMenuHandler : MonoBehaviour {
 				currentMenu.menuPanel.SetActive (true);
 				currentMenu.landingPage.SetActive (true);
 
-				Debug.Log ("Landing Page Name : " + currentMenu.landingPage.name);
+				//Debug.Log ("Landing Page Name : " + currentMenu.landingPage.name);
 
 				foreach (UITabs tab in currentMenu.TabsList) {
 					tab.Panel.SetActive (false);
@@ -181,7 +181,7 @@ public class SideMenuHandler : MonoBehaviour {
 		currentOpenedMenu = i;
 		sideMenuDisplayHandler (false);
 
-		Debug.Log (MenuList[currentOpenedMenu].TabsList.Count);
+		//Debug.Log (MenuList[currentOpenedMenu].TabsList.Count);
 		if (MenuList[currentOpenedMenu].TabsList.Count == 1) {
 			// since only one tab is available we skip the landing page
 			openMenuTab (0);
@@ -199,7 +199,7 @@ public class SideMenuHandler : MonoBehaviour {
 		foreach (UITabs tab in currentMenu.TabsList) {
 			if (i == counter) {
 				tab.Panel.SetActive (true); 
-				Debug.Log ("Tab Page Name : " + tab.Panel.name);
+				//Debug.Log ("Tab Page Name : " + tab.Panel.name);
 			}
 			else {
 				tab.Panel.SetActive (false);
@@ -212,74 +212,6 @@ public class SideMenuHandler : MonoBehaviour {
 			currentMenu.openedTab = i;
 		}
 	}
-
-	/// <summary>
-	/// deprecated
-	/// </summary>
-	/// <param name="i">The index.</param>
-    /*public void ExpandMenu(int i)
-    {
-        Menu selectedMenu = MenuList[i];
-        Debug.Log(selectedMenu.menuName);
-        //Animator currentMenuAnim = selectedMenu.menuPanel.GetComponent<Animator>();
-        //currentMenuAnim.SetTrigger("Pressed");
-        BackgroundExpansionAnimation.SetInteger("OpenPannelStatus", selectedMenu.menuOpenType);
-        // reseting the other buttons
-        foreach (Menu localMenu in MenuList)
-        {
-            
-            Animator localMenuAnim = localMenu.buttonObject.GetComponent<Animator>();
-            if (localMenu != selectedMenu)
-            {
-                localMenuAnim.SetTrigger("Normal");
-                //localMenu.menuPanel.SetActive(true);
-                localMenu.menuPanel.GetComponent<Animator>().SetInteger("OpenPannelStatus", 0);
-                if (currentBaseStateButton.fullPathHash == buttonIdleState)
-                {
-                    Debug.Log("toto");
-                }
-            }
-            else
-            {
-                localMenuAnim.SetTrigger("Pressed");
-                localMenu.menuPanel.GetComponent<Animator>().SetInteger("OpenPannelStatus", selectedMenu.menuOpenType);
-                TabButton(selectedMenu.openedTab);
-            }
-            localMenuAnim.SetInteger("SideMenuButtonCollapse",1);
-            
-        }
-        menuExpandedStatus = selectedMenu.menuOpenType;
-        ActionButtonsAnim.SetInteger("ShowBackButton",1);
-
-        currentOpenedMenu = i;
-        //TabButton(selectedMenu.openedTab);
-    }*/
-
-	/// <summary>
-	/// deprecated
-	/// </summary>
-    /*public void BackbuttonClick()
-    {
-        foreach (Menu currentMenu in MenuList)
-        {
-            Animator currentMenuAnim = currentMenu.buttonObject.GetComponent<Animator>();
-            currentMenuAnim.SetInteger("SideMenuButtonCollapse", 0);
-            currentMenuAnim.SetTrigger("Normal");
-            currentMenu.menuPanel.GetComponent<Animator>().SetInteger("OpenPannelStatus", 0);
-            foreach (UITabs tab in currentMenu.TabsList)
-            {
-                    tab.Panel.SetActive(false);
-                    tab.Button.GetComponent<Animator>().SetTrigger("Normal");
-              
-            }
-        }
-        ActionButtonsAnim.SetInteger("ShowBackButton", 0);
-        BackgroundExpansionAnimation.SetInteger("OpenPannelStatus", 0);
-        if (currentOpenedMenu == 1)
-        {
-
-        }
-    }*/
 }
 
 [System.Serializable]

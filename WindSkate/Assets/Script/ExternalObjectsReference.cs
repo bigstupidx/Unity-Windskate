@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ExternalObjectsReference : MonoBehaviour {
 
-	public GameObject raceManagerObject;
+    public bool initialized = false;
+    public GameObject raceManagerObject;
 	public UserPreferenceScript UserPrefs;
 	public GameObject SceneManagerObject;
 	public PersistentParameters SceneData;
@@ -18,7 +19,7 @@ public class ExternalObjectsReference : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		initPlayer ();
+        initialized = initPlayer();
 		currentCamera = Camera.main.gameObject;
 	}
 
@@ -26,7 +27,9 @@ public class ExternalObjectsReference : MonoBehaviour {
 	{
 		bool worked = false;
 		raceManagerObject = GameObject.Find ("RaceManager");
-		UserPrefs = raceManagerObject.GetComponent<UserPreferenceScript> ();
+        //Debug.Log("ExternalObjectsReference raceManagerObject : " + raceManagerObject);
+        UserPrefs = raceManagerObject.GetComponent<UserPreferenceScript> ();
+        //Debug.Log("ExternalObjectsReference UserPrefs : " + UserPrefs);
 		SceneManagerObject = UserPrefs.SceneManagerObject;
 		SceneData = UserPrefs.PersistentParameterData;
 		if (SceneData != null) {

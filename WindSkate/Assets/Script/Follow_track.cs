@@ -1252,7 +1252,7 @@ public class Follow_track : MonoBehaviour
             {
                 //Debug.Log("Calculate Nav : " + nexttargetreforcalc + " , " + drivestarboardforrecalc);
             }
-            Debug.Log("NavMeshDir on triggered Manoeuvre path calculation");
+            //Debug.Log("NavMeshDir on triggered Manoeuvre path calculation");
             NavMeshNextDir = NavMeshHandling(nexttargetreforcalc, drivestarboardforrecalc, transform.position);
         }
     }
